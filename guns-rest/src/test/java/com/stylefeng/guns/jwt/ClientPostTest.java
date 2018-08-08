@@ -2,6 +2,8 @@ package com.stylefeng.guns.jwt;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -53,7 +55,7 @@ public class ClientPostTest {
 		boolean flag = isTokenExpired(expiration,token);
 		System.out.println("flag="+flag);
 		if(null==expirationStr||flag) {
-			String tokenResponse = HttpUtils.httpPostWithJson(new JSONObject(), token_url, null);
+			String tokenResponse = HttpUtils.httpPostWithJson("", token_url, null);
 			System.out.println("tokenResponse="+tokenResponse);
 			JSONObject jsonObjectToken=JSONObject.parseObject(tokenResponse);
 			if (tokenResponse != null) {
@@ -85,7 +87,9 @@ public class ClientPostTest {
 		baseTransferEntity.setSign(md5);
         String param=JSON.toJSONString(baseTransferEntity);
 		System.out.println("param="+param);
-		String restResponse = HttpUtils.httpPostWithJson(JSONObject.parseObject(param), rest_url, token);
+		Map<String,Object> header = new HashMap<String,Object>();
+		header.put("Authorization","Bearer "+token);
+		String restResponse = HttpUtils.httpPostWithJson(param, rest_url,header);
 		System.out.println("restResponse="+restResponse);
 	}
 	public static void main(String[] args) {

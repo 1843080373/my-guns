@@ -7,9 +7,6 @@ public class RedisUtils {
 	static {
 		 //连接本地的 Redis 服务
         jedis = new Jedis("localhost");
-        System.out.println("连接成功");
-        //查看服务是否运行
-        System.out.println("服务正在运行: "+jedis.ping());
 	}
 	public static String read(String key) {
 		try {
